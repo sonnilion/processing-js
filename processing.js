@@ -758,6 +758,10 @@
     p.NORMAL_MODE_SHAPE = 1;
     p.NORMAL_MODE_VERTEX = 2;
     p.MAX_LIGHTS = 8;
+    //texture support
+    p.textureMode = 'IMAGE';
+    p.textureImage = new PImage();
+    p.textures = new Array();
 		
     // Key Constants
     // both key and keyCode will be equal to these values
@@ -4881,7 +4885,17 @@
       }
 
     };
-
+    p.textureMode = function textureMode( mode ){
+      p.textureMode = mode;
+    }
+    p.texture = function texture( image ){
+      p.textureImage = image;
+      if(p.use3Dcontext)
+      {
+        p.textures.push( image );
+      }
+    };
+    
     p.vertex = function vertex(x, y, x2, y2, x3, y3) {
 
       if (curShapeCount === 0 && curShape !== p.POINTS) {
