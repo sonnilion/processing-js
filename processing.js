@@ -819,7 +819,7 @@
       mouseDragging = false,
       keyPressed = false,
       curColorMode = p.RGB,
-      curTint = -1,
+      curTint = function() {},
       curTextSize = 12,
       curTextFont = "Arial",
       getLoaded = false,
@@ -6061,15 +6061,10 @@
           }
         }
         
-        var  oldAlpha;
-
-        if (curTint >= 0) {
-          oldAlpha = curContext.globalAlpha;
-          curContext.globalAlpha = curTint / opacityRange;
-        }
-
         // draw the image
         //curContext.putImageData(obj, x, y); // this causes error if data overflows the canvas dimensions
+        
+        curTint(obj);
 
         // <corban> doing this the slow way for now
         // we will want to replace this with putImageData and clipping logic
@@ -6087,10 +6082,6 @@
           curContext.drawImage(c, x, y, w, h);
         } else {
           curContext.drawImage(c, x, y);
-        }
-
-        if (curTint >= 0) {
-          curContext.globalAlpha = oldAlpha;
         }
 
         if (img._mask) {
@@ -6111,11 +6102,27 @@
       }
     };
 
-    p.tint = function tint(rgb, a) {
-      curTint = a;
+    p.tint = function tint() {
+      var tintColors = p.color.apply( this, arguments ).split(",");
+      var r = parseInt( tintColors[0].split("(")[1], 10 ) / 255;
+      var g = parseInt( tintColors[1], 10 ) / 255;
+      var b = parseInt( tintColors[2], 10 ) / 255;
+      var a = parseFloat( tintColors[3].split(")")[0], 10 );
+
+      curTint = function( obj ) {
+        var data = obj.data, length = 4 * obj.width * obj.height;
+        for( var i = 0; i < length; ) {
+          data[i++] *= r;
+          data[i++] *= g;
+          data[i++] *= b;
+          data[i++] *= a;
+        }
+      };
     };
 
-
+    p.noTint = function noTint() {
+      curTint = function() {};
+    };
 
     ////////////////////////////////////////////////////////////////////////////
     // Font handling
