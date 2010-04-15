@@ -5494,7 +5494,7 @@
     };
 
     p.bezier = function bezier() {
-      if( arguments.length == 8)
+      if( arguments.length == 8  && p.use3DContext == false)
       {
         curContext.beginPath();
         curContext.moveTo( arguments[0], arguments[1] );
@@ -5504,16 +5504,27 @@
       }
       else{
         if(p.use3DContext){
-          beginShape();
-          vertex( arguments[0], arguments[1], arguments[2] );
-          bezierVertex( arguments[3], arguments[4], arguments[5],
-                        arguments[6], arguments[7], arguments[8],
-                        arguments[9], arguments[10], arguments[11]);
-          endShape();
+          if( arguments.length == 8 )
+          {
+            p.beginShape();
+            p.vertex( arguments[0], arguments[1] );
+            p.bezierVertex( arguments[2], arguments[3], 
+                          arguments[4], arguments[5],
+                          arguments[6], arguments[7]);
+            p.endShape();
+          }
+          else{
+            p.beginShape();
+            p.vertex( arguments[0], arguments[1], arguments[2] );
+            p.bezierVertex( arguments[3], arguments[4], arguments[5],
+                          arguments[6], arguments[7], arguments[8],
+                          arguments[9], arguments[10], arguments[11]);
+            p.endShape();
+          }
         }
       }
     };
-
+    
     p.bezierPoint = function bezierPoint(a, b, c, d, t) {
       return (1 - t) * (1 - t) * (1 - t) * a + 3 * (1 - t) * (1 - t) * t * b + 3 * (1 - t) * t * t * c + t * t * t * d;
     };
@@ -5534,7 +5545,6 @@
       bezierDrawMatrix.apply(bezierBasisMatrix);
     };
     p.bezierVertex = function bezierVertex() {
-      float x2, float y2, float z2, float x3, float y3, float z3,float x4, float y4, float z4
       if(arguments.length == 9){
         var x2 = arguments[0],
             y2 = arguments[1],
@@ -5557,7 +5567,7 @@
       }
       var draw = bezierDrawMatrix.array();
 
-      var [] prev = vertArray[vertArray.length -1];
+      var prev = vertArray[vertArray.length -1];
       var x1 = prev[0];
       var y1 = prev[1];
       if(arguments.length == 9){
@@ -5580,12 +5590,12 @@
       for (var j = 0; j < bezierDetail; j++) {
         x1 += xplot1; xplot1 += xplot2; xplot2 += xplot3;
         y1 += yplot1; yplot1 += yplot2; yplot2 += yplot3;
-        if(arguements.length == 9){
+        if(arguments.length == 9){
           z1 += zplot1; zplot1 += zplot2; zplot2 += zplot3;
-          vertex(x1, y1, z1);
+          p.vertex(x1, y1, z1);
         }
         else{
-          vertex(x1, y1);
+          p.vertex(x1, y1);
         }
       }
     }; 
