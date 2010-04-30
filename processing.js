@@ -6032,7 +6032,7 @@
       }
     };
 
-    p.curveVertex = function(x, y, z) {
+    /*p.curveVertex = function(x, y, z) {
       isCurve = true;
       if(p.use3DContext)
       {
@@ -6045,6 +6045,22 @@
       }else {
       p.vertex(x, y, z);   
      }
+    };*/
+    p.curveVertex = function (x, y, z) {
+       isCurve = true;
+      if( p.use3DContext) {
+          curvePoints.push([x, y, z]);
+          if (curvePoints.length > 3){
+        
+          
+            p.curveVertexSegment( curvePoints[0][0], curvePoints[0][1], curvePoints[0][2],
+                                 curvePoints[1][0], curvePoints[1][1], curvePoints[1][2],
+                                 curvePoints[2][0], curvePoints[2][1], curvePoints[2][2],
+                                curvePoints[3][0], curvePoints[3][1], curvePoints[3][2]);
+          } 
+      }else {
+         p.vertex(x, y, z);
+      }
     };
  
     p.curveVertexSegment = function(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4) {
