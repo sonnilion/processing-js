@@ -6034,9 +6034,19 @@
 
     p.curveVertex = function(x, y, z) {
       isCurve = true;
-      p.vertex(x, y, z);      
+      if(p.use3DContext)
+      {
+        
+        curvePoints.push(arguments[0],arguments[1],arguments[2] | 0);
+        if(curvePoints.length >3){
+          p.curveVertexSegment(curvePoints[0][0], curvePoints[0][1], curvePoints[0][2], curvePoints[1][0], curvePoints[1][1], curvePoints[1][2], 
+                               curvePoints[2][0], curvePoints[2][1], curvePoints[2][2], curvePoints[3][0], curvePoints[3][1], curvePoints[3][2]);
+        }
+      }else {
+      p.vertex(x, y, z);   
+     }
     };
-
+ 
     p.curveVertexSegment = function(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4) {
       var x0 = x2;
       var y0 = y2;
@@ -6058,15 +6068,9 @@
 
       p.vertex(x0, y0, z0);
       for (var j = 0; j < curveDetail; j++) {
-        x0 += xplot1;
-        xplot1 += xplot2;
-        xplot2 += xplot3;
-        y0 += yplot1;
-        yplot1 += yplot2;
-        yplot2 += yplot3;
-        z0 += zplot1;
-        zplot1 += zplot2;
-        zplot2 += zplot3;
+        x0 += xplot1; xplot1 += xplot2; xplot2 += xplot3;
+        y0 += yplot1; yplot1 += yplot2; yplot2 += yplot3;
+        z0 += zplot1; zplot1 += zplot2; zplot2 += zplot3;
         p.vertex(x0, y0, z0);
       }
     };
