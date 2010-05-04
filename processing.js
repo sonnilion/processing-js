@@ -750,6 +750,7 @@
           methodsArray[i] = methodsArray[i].replace(/(addMethod.*?\{ return function\((.*?)\)\s*\{)([\s\S]*?)(\};\}\)\(this\)\);var \w+ = this\.\w+;)/g, function(all, header, localParams, body, footer) {
             body = body.replace(/this\./g, "public.");
             localParams = localParams.replace(/\s*,\s*/g, "|");
+
             return header + body.replace(new RegExp("(\\.)?\\b(" + publicVars.substr(0, publicVars.length-1) + ")\\b", "g"), function (all, first, variable) {
               if (first === ".") {
                 return all;
