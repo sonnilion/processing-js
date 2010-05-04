@@ -7,7 +7,7 @@
     var t;
     var timer_is_on=0;
     var increment =0;
-    var files = new Array("demo1.pjs","demo2.pjs","demo3.pjs","demo4.pjs");
+    var files = new Array("demo1.pjs","demo2.pjs","demo3.pjs","demo4.pjs","demo5.pjs","demo6.pjs","bezierellipse.pjs");
     
     function timedCount()
     {
@@ -19,14 +19,15 @@
       oRequest.send(null)
 
       if (oRequest.status==200){ 
-        var can = document.createElement("canvas");
-        can.id = "actual";
-        can.width =400;
-        can.className = "canvclass";
-        document.getElementById("canvasdiv").appendChild(can);
+        //document.getElementById("canvasdiv").removeChild(document.getElementById("actual"));
+        //var can = document.createElement("canvas");
+        //can.id = "actual";
+        //can.width =400;
+        
+        //document.getElementById("canvasdiv").appendChild(can);
         try {
-          var p = Processing(document.getElementById("actual"), oRequest.responseText); 
-          t=setTimeout("timedCount()",1000);
+          Processing(document.getElementById("actual"), oRequest.responseText); 
+          t=setTimeout("timedCount()",7000);
           
         }
         catch(r){t=setTimeout("timedCount()",1);}
@@ -36,6 +37,7 @@
 
       increment++;
       if(increment >= files.length){ increment =0;}
+     
     }
 
     function doTimer()
@@ -52,6 +54,7 @@
 <h2></h2>
 
 <div id="canvasdiv" >
+<canvas id="actual"></canvas>
 
 </div>
 
