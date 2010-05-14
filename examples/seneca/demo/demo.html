@@ -1,24 +1,25 @@
 <html>
 <head>
-  <script src="processing.js"></script>
+  <script src="../../../processing.js"></script>
  
   <script type="text/javascript">
     var c=0;
     var t;
     var timer_is_on=0;
     var increment =0;
-    var files = new Array("demo1.pjs","demo2.pjs","demo3.pjs","demo4.pjs","demo5.pjs","demo6.pjs","bezierellipse.pjs");
+    var files = new Array("flowers.pjs");
     
     function timedCount()
     {
       var oRequest = new XMLHttpRequest();
-      var sURL  = "http://matrix.senecac.on.ca/~asobiepa/Processing/Demo/"+ files[increment];
+      //var sURL  = "http://matrix.senecac.on.ca/~asobiepa/Processing/Demo/"+ files[increment];
+      var sURL = files[increment];
       oRequest.open("GET",sURL,false);
       oRequest.setRequestHeader("User-Agent",navigator.userAgent);
 
       oRequest.send(null)
 
-      if (oRequest.status==200){ 
+      if (oRequest.status==0){ 
         //document.getElementById("canvasdiv").removeChild(document.getElementById("actual"));
         //var can = document.createElement("canvas");
         //can.id = "actual";

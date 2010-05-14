@@ -1,0 +1,50 @@
+// Tubes
+
+int x = 0;
+int t;
+int y = 100;
+boolean d = false;
+int vert = 1;
+
+
+void setup(){
+  size(600,800);
+  smooth();
+  background(0,0);
+}
+
+void draw(){
+  if ( y+120 > height && x-200 > width ) noLoop();
+
+  if (d) {
+    y = y+vert;
+  }
+
+  if ( t > random(20,120) && d ) {
+    d = false;
+    t = 0;
+  }
+  int change = random(10);
+  if ( change > 6 && !d ) {
+    d = true;
+    if ( vert == 1 ) {
+      vert = -1;
+    } else {
+      vert = 1;
+    }
+  }
+
+  // noFill();
+  stroke(255,100,100,150);
+  fill(255,100);
+  ellipse(x-100,y,80,80);
+
+  if ( x-200 > width ) {
+    x = 0;
+    y = y+random(120);
+  } else {
+    x = x+5;
+  }
+
+  t++;
+}
