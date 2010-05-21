@@ -1,0 +1,26 @@
+// processing animation
+
+size(800,600);
+smooth();
+strokeWeight(20);
+background(56,92,133);
+//fill(0);
+//rect(0,0,1195,595);
+PFont font;
+font = loadFont("Consolas"); 
+textFont(font, 80);
+fill(255, 255, 255);
+stroke(255,0,0);
+Char[] pjs = { "P", "R", "O", "C", "E", "S", "S", "I", "N", "G", ".", "J", "S"}; 
+int i = 0;
+int x = 0;
+
+void draw() {
+  if (frameCount % 45 == 0) {
+    text(pjs[i++], 30+x, 360);
+	x += 55;
+  }
+  if (i > 13) {
+    noloop();
+  }
+}
