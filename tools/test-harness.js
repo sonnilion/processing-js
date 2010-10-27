@@ -29,9 +29,26 @@ Array.prototype.compareArrays = function(arr, eps) {
   return true;
 };
 
+Array.prototype.toString = function () {
+  var stringified = "";
+  for (var i = 0; i < this.length; i++) {
+    if (this[i].compareArrays) { //nested array?
+      stringified += this[i].toString() + ",";
+    }
+    else {
+      stringified += this[i] + ",";
+    }
+  }
+  return ("[" +stringified.slice(0,-1) + "]");
+};
+
 function _checkEqual(a, b) {
   // If user passed a third arg (Epsilon) use it for ~=
   var eps = arguments[2] || 0;
+  if(typeof a === "object" && typeof b === "object" && a.constructor === b.constructor
+    && "toArray" in a && "toArray" in b) {
+    a = a.toArray(); b = b.toArray();
+  }
   if (a.compareArrays && b.compareArrays) {
     if (a.compareArrays(b, eps))
       _pass();
@@ -93,13 +110,13 @@ function _checkThrows(f) {
 
 // Parser tests are automatically generated from Processing files to call this.
 function _checkParser() {
-  eval(Processing(canvas, parserTest.body));
+  eval(new Processing(canvas, parserTest.body));
   _pass();
 }
 
 function _doSetup() {
   // Build a Processing environment we can test against.
-  this._pctx = Processing(canvas, '');
+  this._pctx = new Processing(canvas, '');
 
   if (this._setup)
     this._setup();
@@ -119,6 +136,14 @@ function _testRunnerMain() {
     this._finished();
 
   print('TEST-SUMMARY: ' + _passCount + '/' + _failCount);
+  try
+  {
+    var numbers = [];
+    for(var i in __pjsCalledLines) {
+      if(0|i > 0 && __pjsCalledLines[i]) { numbers.push(i); }
+    }
+    print('LINES-CALLED: ' + numbers.join(","));
+  } catch(e) {}
 };
 
 _testRunnerMain();

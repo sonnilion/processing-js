@@ -36,6 +36,10 @@ Processing.lib.UnitTests = function() {
     this._checkEqual = function(a, b) {
       // If user passed a third arg (Epsilon) use it for ~=
       var eps = arguments[2] || 0;
+      if(typeof a === "object" && typeof b === "object" && a.constructor === b.constructor
+        && "toArray" in a && "toArray" in b) {
+        a = a.toArray(); b = b.toArray();
+      }
       if (a.compareArrays && b.compareArrays) {
         if (a.compareArrays(b, eps))
           this._pass();
@@ -97,8 +101,21 @@ Processing.lib.UnitTests = function() {
 
     this._printTestSummary = function() {
       print('TEST-SUMMARY: ' + _passCount + '/' + _failCount);
+      try 
+      {
+        var numbers = [];
+        for(var i in __pjsCalledLines) {
+          if(0|i > 0 && __pjsCalledLines[i]) { numbers.push(i); }
+        }
+        print('LINES-CALLED: ' + numbers.join(","));
+      } catch(e) {}
     };
   };
 };
 
+Processing.lib.UnitTests.exports = ["UnitTests", "__sketch",
+  "_pass","_fail","_checkEqual","_checkNotEqual","_checkIsNaN","_checkIsNull",
+  "_checkTrue","_checkFalse","_checkThrows","_printTestSummary"];
+
 })();
+

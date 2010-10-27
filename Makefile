@@ -61,7 +61,7 @@ yui: create-release
 # check for any parsing errors in compiled version of processing.js
 	${JSSHELL} -f ${TOOLSDIR}/fake-dom.js -f ./release/processing-${VERSION}.min.js
 
-check:
+check: check-globals
 	${TOOLSDIR}/runtests.py ${JSSHELL}
 
 check-release: yui
@@ -78,7 +78,12 @@ check-parser:
 
 check-unit:
 	${TOOLSDIR}/runtests.py -u ${JSSHELL}
-
+  
+bespin: create-release
+	java -jar ${TOOLSDIR}/yui/yuicompressor-2.4.2.jar --nomunge tools/ide/js/loader.js -o ./tools/ide/js/loader.min.js
+	java -jar ${TOOLSDIR}/yui/yuicompressor-2.4.2.jar --nomunge tools/ide/js/bespin.js -o ./tools/ide/js/bespin.min.js
+	java -jar ${TOOLSDIR}/yui/yuicompressor-2.4.2.jar --nomunge tools/ide/js/pjs-box.js -o ./tools/ide/js/pjs-box.min.js
+  
 # If you want to test just one file or dir, use |make check-one TEST=<file or dir>|
 TEST ?= $(error Specify a test filename/dir in TEST when using check-test)
 
@@ -87,6 +92,18 @@ JSSHELL ?= $(error Specify a valid path to a js shell binary in ~/.profile: expo
 
 check-one:
 	${TOOLSDIR}/runtests.py ${JSSHELL} -t ${TEST}
+
+add-coverage: create-release
+	cat processing.js | ${JSSHELL} -f ${TOOLSDIR}/jscoverage.js > ./release/processing-cv.js
+
+check-coverage: add-coverage
+	${TOOLSDIR}/runtests.py ${JSSHELL} -l ./release/processing-cv.js -c ./release/codecoverage.txt
+
+check-globals:
+	${JSSHELL} -f ${TOOLSDIR}/fake-dom.js -f ${TOOLSDIR}/jsglobals.js -e "findDifference()" < processing.js
+
+print-globals:
+	${JSSHELL} -f ${TOOLSDIR}/fake-dom.js -f ${TOOLSDIR}/jsglobals.js -e "printNames()" < processing.js
 
 clean:
 	rm -fr ./release

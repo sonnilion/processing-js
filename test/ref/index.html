@@ -110,7 +110,7 @@
         req.open('GET', file, false);
         req.overrideMimeType('text/plain; charset=x-user-defined');
         req.send(null);
-        if (req.status != 200) {
+        if (req.status != 200 && req.status !=0) {
           return null;
         } else {
           return req.responseText;
@@ -178,33 +178,26 @@
                  (failMessage ? " -- FAILED (" + failMessage + ")" : " -- PASSED");
         };
 
-        var getPixels = function(aCanvas, isWebGL) {
+        var getPixels = function(aCanvas, isWebGL) {        
           try {
             if (isWebGL) {
-              // Safari returns a regular JS object for readPixels.
-              // Minefield returns a WebGLUnsignedByteArray.
-              // Chromium raises an exception because of an XHR bug.
-              // So we need to handle each case differently.
-
-              var browserString = navigator.userAgent;
-              var regex = /Safari/i;
-              var isSafari = browserString.match(regex);
-
               var context = aCanvas.getContext("experimental-webgl");
-
-              // Safari returns null if format RGB is requested
-              var unsignedBuffer = context.readPixels(0,0,aCanvas.width,aCanvas.height,context.RGBA,context.UNSIGNED_BYTE);
-              var data;
-
-              if (isSafari) {
-                // extract the data from the WebGLUnsignedByteArray and place
-                // it in a JS array for easy manipulation.
-                data = new Array(unsignedBuffer.length);
-                for(var i = 0, ubl = unsignedBuffer.length; i < ubl; i++) {
-                  data[i] = unsignedBuffer[i];
+              
+              var data = null;
+              try{
+                // try deprecated way first 
+                data = context.readPixels(0, 0, aCanvas.width, aCanvas.height, context.RGBA, context.UNSIGNED_BYTE);
+                
+                // Chrome posts an error
+                if(context.getError()){
+                  throw new Error("readPixels() API has changed.");
                 }
-              } else {
-                data = unsignedBuffer.data;
+              }catch(e){
+                // if that failed, try new way              
+                if(!data){
+                  data = new Uint8Array(aCanvas.width * aCanvas.height * 4);
+                  context.readPixels(0, 0, aCanvas.width, aCanvas.height, context.RGBA, context.UNSIGNED_BYTE, data);
+                }
               }
               return data;
             } else {
@@ -251,7 +244,7 @@
             var startTime = (new Date).getTime(), totalTime = 0;
             var p;
             try {
-              p = Processing(current, test.code);
+              p = new Processing(current, test.code);
             } catch (e) {
               title.innerHTML = titleText(i+1, tl, 0, test.name, "Processing failed: " + e.toString());
               failedCount++;
