@@ -7,11 +7,11 @@
     var t;
     var timer_is_on=0;
     var increment =0;
-	var sketch;
-    var files = new Array("processing.pjs", "twist.pjs","lamins.pjs","patchwork.pjs","flowers.pjs","tubes.pjs","partick.pjs","disco.pjs","houstonWeHaveMovement.pjs");
+    var sketch;
+    var files = new Array("processing.pjs","disco.pjs","symAsym.pde","particles.pde","kimdayeon.pde","spin.pde","deco.pde","darkness.pde","partick.pjs","abstract.pjs");
     
     function timedCount()
-    {
+    {                                        
       var oRequest = new XMLHttpRequest();
       //var sURL  = "http://matrix.senecac.on.ca/~asobiepa/Processing/Demo/"+ files[increment];
       var sURL = files[increment];
@@ -21,18 +21,19 @@
       oRequest.send(null)
 
       if (oRequest.status==0){ 
-	  if(document.getElementById("actual")){
-	    sketch.exit();
-        document.getElementById("canvasdiv").removeChild(document.getElementById("actual"));
-		}
+      	if(document.getElementById("actual")){
+      			sketch.exit();
+      			document.getElementById("canvasdiv").removeChild(document.getElementById("actual"));
+      	}	
         var can = document.createElement("canvas");
+        can.width=2500;
+        can.heigh=1400;
         can.id = "actual";
-        //can.width =400;
         
         document.getElementById("canvasdiv").appendChild(can);
         try {
-          sketch = Processing(document.getElementById("actual"), oRequest.responseText); 
-          t=setTimeout("timedCount()",10000);
+          sketch = new Processing(document.getElementById("actual"), oRequest.responseText); 
+          t=setTimeout("timedCount()",30000);
           
         }
         catch(r){alert(r+"example"+sURL); t=setTimeout("timedCount()",1);}
@@ -47,10 +48,10 @@
 
     function doTimer()
     {
-    if (!timer_is_on)
+    	if (!timer_is_on)
       {
-      timer_is_on=1;
-      timedCount();
+      	timer_is_on=1;
+      	timedCount();
       }
     }
   </script> 

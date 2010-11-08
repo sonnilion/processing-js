@@ -12,7 +12,7 @@
 
 void setup(){
     frameRate(30);
-    size(800,600); 
+    size(2500,1400); 
     noFill();
     stroke(0,164,255);
     strokeWeight(3); 

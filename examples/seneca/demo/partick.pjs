@@ -3,7 +3,7 @@ float center2 = 200;
 
 
 void setup(){
-  size(800,600);
+  size(2500,1400);
   smooth();
   background(255);
   fill(255,10);
@@ -15,14 +15,15 @@ void draw(){
   float inc = random(-20.5, 20.5);
   float inc2 = random(-20.5 ,20.5);
 
-  float big = random(20);
+  float big = random(50);
 
   float end2 = center2 + inc2;
   float end = center1 + inc;
   
   stroke(0,50);
+  
   line(center1, center2, end, end2);
-  strokeWeight(.5);
+  strokeWeight(1);
   stroke(200,0,0,50);
   
   if(big < 10){
