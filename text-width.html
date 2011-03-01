@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<meta name="generator" content="http://processingjs.org">
+<title>Text-Width - Processing.js Demo</title>
+<script type="text/javascript" src="processing.min.js"></script>
+<script type="text/javascript">
+/*
+ * This code searches for all the <script type="application/processing" target="canvasid">
+ * in your page and loads each script in the target canvas with the proper id.
+ * It is useful to smooth the process of adding Processing code in your page and starting
+ * the Processing.js engine.
+ */
+if ( document.addEventListener ) {
+	document.addEventListener("DOMContentLoaded", function() {
+		var scripts = document.getElementsByTagName("script");
+		
+		for ( var i = 0; i < scripts.length; i++ ) {
+			if ( scripts[i].type == "application/processing" ) {
+				var src = scripts[i].src, canvas = scripts[i].nextSibling;
+	
+				if ( src && src.indexOf("#") ) {
+					canvas = document.getElementById( src.substr( src.indexOf("#") + 1 ) );
+				} else {
+					while ( canvas && canvas.nodeName.toUpperCase() != "CANVAS" )
+						canvas = canvas.nextSibling;
+				}
+
+				if ( canvas ) {
+					new Processing(canvas, scripts[i].textContent);
+				}
+			}
+		}
+	}, false);
+}
+</script>
+<style type="text/css">
+  body{font-size:80%;font-family:lucida-console;padding:0;margin:0;text-align:center;font-family:verdana;}
+  h1{font-family:verdana;background:steelblue;color:#fff;padding:5px 25px;margin:0;}
+  h2{font-family:verdana;background:lightgrey;color:dimgrey;padding:5px 25px;margin:0;font-size:120%}
+  pre{text-align:left;width:800px;margin:0 auto;font-size:10pt;}  
+</style>
+</head>
+<body>
+<h1>Text-Width - Processing.js</h1>
+<h2>Using the width() command in Processing.js</h2>
+  
+<script type="application/processing">
+
+/*  T E X T - W I D T H 
+    How to use the width() command in Processing.js
+    Example by: hyper-metrix.com/F1LT3R
+    License: none    
+*/
+
+// Set up the screen
+void setup(){  
+    size(200, 200);
+    noStroke(); 
+    centerY = height/2;
+    centerX = width/2;
+}
+
+// Load and set the font
+PFont fontA = loadFont("Arial");
+int fontSize=20;
+float myWidth;
+textFont(fontA, fontSize);
+String myText = "Hello world!";
+
+// Define the position variables
+int centerX , centerY;  
+float x,y;
+float radius=30;
+  
+void draw(){    
+    background(100);
+        
+    // Get the width of the string
+    myWidth = textWidth( myText );
+    
+    // Set the x/y coords and centralize the text
+    x = centerX + sin( frameCount /30 ) * radius;
+    x = x - myWidth / 2;
+    y = centerY + cos( frameCount /30 ) * radius;
+        
+    // Fill a white rectangle the size of the font
+    fill(255);
+    rect(x,y-fontSize,myWidth,fontSize);
+    
+    // Print the text to screen
+    fill(0);
+    text( myText, x, y );
+        
+}
+
+</script><canvas width="200" height="200"></canvas>      
+
+<p>
+  <a href="http://www.processingjs.org/source/text-width/processing.js_text-width.zip">Download source</a>
+</p>
+
+<pre>
+/*  T E X T - W I D T H 
+    How to use the width() command in Processing.js
+    Example by: hyper-metrix.com/F1LT3R
+    License: none    
+*/
+
+// Set up the screen
+void setup(){  
+    size(200, 200);
+    noStroke(); 
+    centerY = height/2;
+    centerX = width/2;
+}
+
+// Load and set the font
+PFont fontA = loadFont("Arial");
+int fontSize=20;
+float myWidth;
+textFont(fontA, fontSize);
+String myText = "Hello world!";
+
+// Define the position variables
+int centerX , centerY;  
+float x,y;
+float radius=30;
+  
+void draw(){    
+    background(100);
+        
+    // Get the width of the string
+    myWidth = textWidth( myText );
+    
+    // Set the x/y coords and centralize the text
+    x = centerX + sin( frameCount /30 ) * radius;
+    x = x - myWidth / 2;
+    y = centerY + cos( frameCount /30 ) * radius;
+        
+    // Fill a white rectangle the size of the font
+    fill(255);
+    rect(x,y-fontSize,myWidth,fontSize);
+    
+    // Print the text to screen
+    fill(0);
+    text( myText, x, y );
+        
+}
+
+</pre>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
