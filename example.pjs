@@ -1,9 +1,7 @@
 //	Processing.js Example
 
 void setup() {
-  size(200, 200);
+size(100, 100, P3D); 
+arc(50, 50, 30, 30, 0, PI/2); 
 }
 
-void draw() {
-  background(#00ff00);
-}
