@@ -12322,8 +12322,11 @@
         stopLUT  = 0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         p.beginShape();
         p.vertex(centerX, centerY);
-        for (i = startLUT; i < stopLUT; i++) {
-          p.vertex(centerX + cosLUT[Math.floor(i)] * hr,centerY + sinLUT[Math.floor(i)] * vr);
+        for (i = startLUT, j = startLUT; i < stopLUT-1; i++, j++) {
+          if (j > PConstants.SINCOS_LENGTH) {
+            var j = j - PConstants.SINCOS_LENGTH;
+          }
+          p.vertex(centerX + cosLUT[Math.floor(j)] * hr,centerY + sinLUT[Math.floor(j)] * vr);
         }
         p.endShape();
         doStroke = savedStroke;
@@ -12336,8 +12339,11 @@
         startLUT = 0.5 + (start / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         stopLUT  = 0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         p.beginShape();
-        for (i = startLUT; i < stopLUT; i++) {
-          p.vertex(centerX + cosLUT[parseInt(i)] * hr,centerY + sinLUT[parseInt(i)] * vr);
+        for (i = startLUT, j = startLUT; i < stopLUT; i++, j++) {
+          if (j > PConstants.SINCOS_LENGTH) {
+            var j = j - PConstants.SINCOS_LENGTH;
+          }
+          p.vertex(centerX + cosLUT[Math.floor(j)] * hr,centerY + sinLUT[Math.floor(j)] * vr);
         }
         p.endShape();
         doFill = savedFill;
