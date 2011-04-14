@@ -12325,6 +12325,7 @@
         for (i = startLUT; i < stopLUT; i++) {
           p.vertex(centerX + cosLUT[Math.floor(i)] * hr,centerY + sinLUT[Math.floor(i)] * vr);
         }
+        p.endShape();
       }
 
       if (doStroke) {
