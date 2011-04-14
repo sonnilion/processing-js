@@ -12326,6 +12326,7 @@
           p.vertex(centerX + cosLUT[Math.floor(i)] * hr,centerY + sinLUT[Math.floor(i)] * vr);
         }
         p.endShape();
+        doStroke = savedStroke;
       }
 
       if (doStroke) {
