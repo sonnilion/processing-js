@@ -329,7 +329,7 @@
     HINT_COUNT:                  10,
 
     // PJS defined constants
-    SINCOS_LENGTH:      parseInt(360 / 0.5, 10),
+    SINCOS_LENGTH:      Math.floor(360 / 0.5, 10),
     PRECISIONB:         15, // fixed point precision is limited to 15 bits!!
     PRECISIONF:         1 << 15,
     PREC_MAXVAL:        (1 << 15) - 1,
@@ -10031,8 +10031,8 @@
       var cz = new Float32Array(ures);
       // calc unit circle in XZ plane
       for (i = 0; i < ures; i++) {
-        cx[i] = cosLUT[parseInt((i * delta) % PConstants.SINCOS_LENGTH, 10)];
-        cz[i] = sinLUT[parseInt((i * delta) % PConstants.SINCOS_LENGTH, 10)];
+        cx[i] = cosLUT[Math.floor((i * delta) % PConstants.SINCOS_LENGTH, 10)];
+        cz[i] = sinLUT[Math.floor((i * delta) % PConstants.SINCOS_LENGTH, 10)];
       }
 
       // computing vertexlist
@@ -10050,8 +10050,8 @@
 
       // step along Y axis
       for (i = 1; i < vres; i++) {
-        var curradius = sinLUT[parseInt(angle % PConstants.SINCOS_LENGTH, 10)];
-        var currY = -cosLUT[parseInt(angle % PConstants.SINCOS_LENGTH, 10)];
+        var curradius = sinLUT[Math.floor(angle % PConstants.SINCOS_LENGTH, 10)];
+        var currY = -cosLUT[Math.floor(angle % PConstants.SINCOS_LENGTH, 10)];
         for (var j = 0; j < ures; j++) {
           sphereX[currVert] = cx[j] * curradius;
           sphereY[currVert] = currY;
