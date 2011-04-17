@@ -12313,20 +12313,20 @@
       var vr = height / 2;
       var centerX = x + hr;
       var centerY = y + vr;
-      var i, startLUT, stopLUT;
+      var startLUT = Math.floor(-0.5 + (start / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH);
+      var stopLUT  = Math.floor(0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH);
+      var i, j;
       if (doFill) {
         // shut off stroke for a minute
         var savedStroke = doStroke;
         doStroke = false;
-        startLUT = 0.5 + (start / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
-        stopLUT  = 0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         p.beginShape();
         p.vertex(centerX, centerY);
-        for (i = startLUT, j = startLUT; i < stopLUT-1; i++, j++) {
+        for (i = startLUT, j = startLUT; i < stopLUT; i++, j++) {
           if (j > PConstants.SINCOS_LENGTH) {
-            var j = j - PConstants.SINCOS_LENGTH;
+            j = j - PConstants.SINCOS_LENGTH;
           }
-          p.vertex(centerX + cosLUT[Math.floor(j)] * hr,centerY + sinLUT[Math.floor(j)] * vr);
+          p.vertex(centerX + cosLUT[j] * hr,centerY + sinLUT[j] * vr);
         }
         p.endShape();
         doStroke = savedStroke;
@@ -12336,14 +12336,12 @@
         // and doesn't include the first (center) vertex.
         var savedFill = doFill;
         doFill = false;
-        startLUT = 0.5 + (start / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
-        stopLUT  = 0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         p.beginShape();
         for (i = startLUT, j = startLUT; i < stopLUT; i++, j++) {
           if (j > PConstants.SINCOS_LENGTH) {
-            var j = j - PConstants.SINCOS_LENGTH;
+            j = j - PConstants.SINCOS_LENGTH;
           }
-          p.vertex(centerX + cosLUT[Math.floor(j)] * hr,centerY + sinLUT[Math.floor(j)] * vr);
+          p.vertex(centerX + cosLUT[j] * hr,centerY + sinLUT[j] * vr);
         }
         p.endShape();
         doFill = savedFill;
