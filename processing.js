@@ -12452,14 +12452,14 @@
         doStroke = false;
         startLUT = 0.5 + (start / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
         stopLUT  = 0.5 + (stop / PConstants.TWO_PI) * PConstants.SINCOS_LENGTH;
-        p.beginShape();
+        p.beginShape(p.TRIANGLE_FAN);
         p.vertex(centerX, centerY);
         for (i = startLUT; i < stopLUT; i++) {
           ii = i % PConstants.SINCOS_LENGTH;
           if (ii < 0) { ii += PConstants.SINCOS_LENGTH; }
           p.vertex(centerX + Math.cos(ii * PConstants.DEG_TO_RAD * 0.5) * hr, centerY + Math.sin(ii * PConstants.DEG_TO_RAD * 0.5) * vr);
         }
-        p.endShape(PConstants.CLOSE);
+        p.endShape();
         doStroke = savedStroke;
       }
 
